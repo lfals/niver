@@ -1,7 +1,7 @@
 import { Card, CardBody, Container, Heading, IconButton, Image, VStack, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { Outlet, useLocation } from "react-router-dom";
 import { FaRegMoon, FaSun } from "react-icons/fa";
-import logo from "../../public/logo.png"
+import logo from "../../src/assets/images/logo.png"
 
 export function AuthLayout() {
     const location = useLocation();

@@ -1,5 +1,5 @@
 import { useColorModeValue, Container, HStack, Heading, IconButton, Flex, Menu, MenuButton, Avatar, MenuList, MenuItem, MenuDivider, Box, Image, useColorMode, Text, Icon } from "@chakra-ui/react";
-import logo from "../../../../public/logo.png"
+import logo from "../../../../src/assets/images/logo.png"
 import defaultUserImage from "../../../assets/images/default-user-image.svg"
 import { FaRegMoon, FaSun, FaChevronDown } from "react-icons/fa";
 

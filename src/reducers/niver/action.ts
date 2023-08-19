@@ -1,4 +1,4 @@
-import { BirthdayPerson } from "../../context/NiverContext";
+import { BirthdayPerson, FilterForm } from "../../context/NiverContext";
 
 export enum ActionTypes {
     SET_MONTH = "SET_MONTH",
@@ -6,6 +6,7 @@ export enum ActionTypes {
     ADD_NEW_PERSON = "ADD_NEW_PERSON",
     REMOVE_PERSON = "REMOVE_PERSON",
     EDIT_PERSON = "EDIT_PERSON",
+    FILTER_PERSONS = "FILTER_PERSONS",
 }
 
 export function setMonthAction(month: string) {
@@ -40,5 +41,12 @@ export function editPersonAction(person: BirthdayPerson) {
     return {
         type: ActionTypes.EDIT_PERSON,
         payload: person,
+    };
+}
+
+export function filterPersonsAction(filterData: FilterForm) {
+    return {
+        type: ActionTypes.FILTER_PERSONS,
+        payload: filterData,
     };
 }

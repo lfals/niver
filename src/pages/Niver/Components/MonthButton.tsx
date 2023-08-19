@@ -10,7 +10,7 @@ interface MonthButtonProps {
 export function MonthButton({ month, isActive = false }: MonthButtonProps) {
     const { setMonth } = useContext(NiverContext);
     const cardBackground = isActive ? useColorModeValue('gray.300', 'gray.600') : useColorModeValue('gray.100', 'gray.900');
-    const isSeeAllMonths = month === 'Ver todos';
+    const isSeeAllMonths = month === 'ver todos';
     return (
         <HStack
             w={'full'}
