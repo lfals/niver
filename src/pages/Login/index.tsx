@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Button, FormControl, FormLabel, IconButton, Input, InputGroup, InputRightElement, Text, VStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { HrDivider } from "../../components/Layout/Auth/HrDivider";
 
 export function Login() {
@@ -50,7 +49,7 @@ export function Login() {
                             variant={'ghost'}
                             onClick={handleShowPassword}
                             aria-label="Mostre a senha"
-                            icon={<FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />}
+                            icon={showPassword ? <FaEye /> : <FaEyeSlash />}
                         />
                     </InputRightElement>
                 </InputGroup>
