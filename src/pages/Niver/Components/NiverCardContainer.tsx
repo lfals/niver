@@ -5,8 +5,10 @@ import { NiverCard } from "./NiverCard";
 import { NiverContext } from "../../../context/NiverContext";
 
 export function NiverCardContainer() {
+    const [isMobileView] = useMediaQuery('(max-width: 768px)', {
+        ssr: false,
+    });
     const { filteredBirthdayPersons, month, filteredByForm } = useContext(NiverContext);
-    const [isMobileView] = useMediaQuery('(max-width: 768px)');
     const isSeeAllMonths = month === 'ver todos';
     const noBirthdayPersons = filteredBirthdayPersons.length === 0;
 

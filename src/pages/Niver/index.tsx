@@ -15,26 +15,6 @@ export function Niver() {
 
     return (
         <>
-            <Flex
-                w="100%"
-                justifyContent={'flex-end'}
-                gap={".5rem"}
-                mb={"1rem"}
-            >
-                <Filter />
-                <Button
-                    colorScheme="blue"
-                    size="sm"
-                    onClick={onModalAddOpen}
-                >
-                    Adicionar Aniversariante
-                </Button>
-            </Flex>
-            <Show below="md">
-                <Select mb={"1rem"}>
-                    {allMonthOptions.map(monthOption => <option key={monthOption}>{monthOption}</option>)}
-                </Select>
-            </Show>
             <Grid
                 templateColumns={{
                     base: "1fr",
@@ -58,6 +38,26 @@ export function Niver() {
                     </GridItem>
                 </Hide>
                 <GridItem>
+                    <Flex
+                        w="100%"
+                        justifyContent={'flex-end'}
+                        gap={".5rem"}
+                        mb={"1rem"}
+                    >
+                        <Filter />
+                        <Button
+                            colorScheme="blue"
+                            size="sm"
+                            onClick={onModalAddOpen}
+                        >
+                            Adicionar Aniversariante
+                        </Button>
+                    </Flex>
+                    <Show below="md">
+                        <Select mb={"1rem"}>
+                            {allMonthOptions.map(monthOption => <option key={monthOption}>{monthOption}</option>)}
+                        </Select>
+                    </Show>
                     <NiverCardContainer />
                 </GridItem>
             </Grid>

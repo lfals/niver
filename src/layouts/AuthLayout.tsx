@@ -13,7 +13,7 @@ export function AuthLayout() {
             height={'100svh'}
             justifyContent={'center'}
         >
-            <Container maxW='sm'>
+            <Container maxW='md'>
                 <Card>
                     <CardBody
                         p={{

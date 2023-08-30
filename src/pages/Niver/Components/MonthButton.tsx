@@ -14,7 +14,7 @@ export function MonthButton({ month, isActive = false }: MonthButtonProps) {
     return (
         <HStack
             w={'full'}
-            py={'0.875rem'}
+            py={'0.5rem'}
             px={'1rem'}
             gap={'1rem'}
             borderRadius={'6px'}
@@ -28,7 +28,7 @@ export function MonthButton({ month, isActive = false }: MonthButtonProps) {
         >
             <Heading
                 as='h4'
-                fontSize={'1.5rem'}
+                fontSize={'1.25rem'}
                 fontWeight={600}
                 display={'flex'}
                 justifyContent={isSeeAllMonths ? 'center' : 'flex-start'}
