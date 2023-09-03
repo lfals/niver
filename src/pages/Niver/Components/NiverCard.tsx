@@ -49,11 +49,11 @@ export function NiverCard({ person }: NiverCardProps) {
                 {person.description}
             </Text>
             <HStack w={'full'} gap={'.125rem'}>
-                {person.socialMedia?.facebook && (<IconButton size={'md'} variant={'ghost'} aria-label="Facebook" icon={<FaFacebookF />} />)}
-                {person.socialMedia?.instagram && (<IconButton size={'md'} variant={'ghost'} aria-label="Instagram" icon={<FaInstagram />} />)}
-                {person.socialMedia?.linkedin && (<IconButton size={'md'} variant={'ghost'} aria-label="Linkedin" icon={<FaLinkedin />} />)}
-                {person.socialMedia?.whatsapp && (<IconButton size={'md'} variant={'ghost'} aria-label="WhatsApp" icon={<FaWhatsapp />} />)}
-                {person.socialMedia?.email && (<IconButton size={'md'} variant={'ghost'} aria-label="Email" icon={<FaEnvelope />} />)}
+                {person.social?.facebook && (<IconButton size={'md'} variant={'ghost'} aria-label="Facebook" icon={<FaFacebookF />} />)}
+                {person.social?.instagram && (<IconButton size={'md'} variant={'ghost'} aria-label="Instagram" icon={<FaInstagram />} />)}
+                {person.social?.linkedin && (<IconButton size={'md'} variant={'ghost'} aria-label="Linkedin" icon={<FaLinkedin />} />)}
+                {person.social?.whatsapp && (<IconButton size={'md'} variant={'ghost'} aria-label="WhatsApp" icon={<FaWhatsapp />} />)}
+                {person.social?.email && (<IconButton size={'md'} variant={'ghost'} aria-label="Email" icon={<FaEnvelope />} />)}
             </HStack>
         </VStack>
     )

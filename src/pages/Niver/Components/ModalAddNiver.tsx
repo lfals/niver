@@ -1,7 +1,7 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, VStack, FormControl, FormLabel, Input, Select, Textarea, InputGroup, InputLeftElement, Icon, FormErrorMessage, Avatar, Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box } from "@chakra-ui/react";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, VStack, FormControl, FormLabel, Input, Select, Textarea, InputGroup, InputLeftElement, Icon, FormErrorMessage, Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box } from "@chakra-ui/react";
 import { FaEnvelope, FaFacebookF, FaInstagram, FaLinkedin, FaWhatsapp } from "react-icons/fa";
-import { NiverContext } from "../../../context/NiverContext";
-import { useContext, useRef } from "react";
+// import { NiverContext } from "../../../context/NiverContext";
+// import { useContext } from "react";
 import { useFormik } from "formik";
 import { addNiverInitialValues, addNiverValidationSchema } from "../../../utils/forms/addNiver";
 import { phoneMask } from "../../../utils/masks";
@@ -14,7 +14,7 @@ interface ModalAddNiverProps {
 
 
 export function ModalAddNiver({ isOpen, onClose }: ModalAddNiverProps) {
-    const { addNewPerson } = useContext(NiverContext);
+    // const { addNewPerson } = useContext(NiverContext);
 
     const formik = useFormik({
         initialValues: addNiverInitialValues,
