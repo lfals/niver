@@ -1,11 +1,12 @@
-import { Container } from "@chakra-ui/react";
+import { Header } from "./components/Header";
+import { Banner } from "./components/Banner";
 
 export function Home() {
     return (
-        <Container
-            maxW='container.lg'
-        >
-            container
-        </Container>
+        <>
+            <Header />
+            <Banner />
+        </>
+
     )
 }

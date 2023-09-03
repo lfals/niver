@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export function Header() {
     const { toggleColorMode } = useColorMode();
-    const { onLogout } = useAuth();
+    const { onLogout, user } = useAuth();
     const navigate = useNavigate();
 
     function handleEditUser() {
@@ -71,7 +71,7 @@ export function Header() {
                                 <HStack gap={"8px"}>
                                     <Avatar
                                         size={"sm"}
-                                        src={defaultUserImage}
+                                        src={user.avatar ? user.avatar : defaultUserImage}
                                         background={'gray.400'}
                                     />
                                     <Box display={{ base: "none", md: "flex" }}>

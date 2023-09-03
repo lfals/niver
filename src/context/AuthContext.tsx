@@ -9,6 +9,7 @@ interface User {
     email: string,
     avatar?: string,
     created_at: string,
+    access_token: string,
 }
 
 interface AuthContextData {
@@ -46,6 +47,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setStorageUser(response.data);
             updateUserData(response.data);
             successToast("Cadastro", "Cadastro realizado com sucesso");
+            api.defaults.headers['Authorization'] = `Bearer ${response.data.access_token}`;
             navigate('/logged');
         } catch (error: any) {
             if (error?.response?.data) {
@@ -65,6 +67,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setStorageUser(response.data);
             updateUserData(response.data);
             successToast("Login", "Login realizado com sucesso");
+            api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`;
             navigate('/logged');
         } catch (error: any) {
             if (error?.response?.data) {
@@ -78,6 +81,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     function onLogout() {
         setUser({} as User);
         setStorageUser('');
+        api.defaults.headers['Authorization'] = '';
     }
 
     useEffect(() => {

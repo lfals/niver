@@ -1,13 +1,16 @@
-import { Card, CardBody, Container, Heading, IconButton, Image, VStack, useColorMode, useColorModeValue } from "@chakra-ui/react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Box, Card, CardBody, Container, Heading, IconButton, Image, VStack, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { FaRegMoon, FaSun } from "react-icons/fa";
 import logo from "../../src/assets/images/logo.png"
 
 export function AuthLayout() {
     const location = useLocation();
+    const navigate = useNavigate();
     const isLoginPage = location.pathname === '/auth/login' ? true : false;
     const { toggleColorMode } = useColorMode();
-
+    function handleHomeClick() {
+        navigate('/');
+    }
     return (
         <VStack
             height={'100svh'}
@@ -36,11 +39,17 @@ export function AuthLayout() {
                             gap={2}
                             mb={5}
                         >
-                            <Image
-                                boxSize='64px'
-                                objectFit='cover'
-                                src={logo}
-                            />
+                            <Box
+                                as="a"
+                                onClick={handleHomeClick}
+                                cursor={'pointer'}
+                            >
+                                <Image
+                                    boxSize='64px'
+                                    objectFit='cover'
+                                    src={logo}
+                                />
+                            </Box>
                             <Heading
                                 as='h1'
                                 size='lg'

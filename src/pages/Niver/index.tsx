@@ -18,11 +18,11 @@ export function Niver() {
             <Grid
                 templateColumns={{
                     base: "1fr",
-                    lg: "300px 1fr"
+                    md: "300px 1fr"
                 }}
                 gap={"1rem"}
             >
-                <Hide below='lg'>
+                <Hide below='md'>
                     <GridItem>
                         <VStack
                             gap={'0.625rem'}

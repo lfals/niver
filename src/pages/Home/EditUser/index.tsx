@@ -1,13 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useFormik } from "formik";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../../hooks/useAuth";
 import { VStack, FormControl, FormLabel, Input, InputGroup, InputRightElement, IconButton, Button, Card, CardBody, Container, Heading, FormErrorMessage } from "@chakra-ui/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { initialValues, validationSchema } from '../../utils/forms/editUser';
-import { AvatarInput } from '../../components/Logged/AvatarInput';
+import { initialValues, validationSchema } from '../../../utils/forms/editUser';
+import { AvatarInput } from '../../../components/Logged/AvatarInput';
+import { api } from '../../../utils/axios';
+import { useToasts } from '../../../hooks/useToast';
+import { useNavigate } from 'react-router-dom';
 
 export function EditUser() {
-    const { user } = useAuth();
+    const { user, updateUserData } = useAuth();
+    const { errorToast, successToast } = useToasts();
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState({
         currentPassword: false,
         newPassword: false
@@ -16,7 +21,7 @@ export function EditUser() {
     const formik = useFormik({
         initialValues,
         validationSchema,
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             const formatedValues: any = {
                 ...values
             }
@@ -25,6 +30,18 @@ export function EditUser() {
             if (formatedValues.name === user.name) delete formatedValues.name;
             if (formatedValues.email === user.email) delete formatedValues.email;
 
+            try {
+                const response = await api.put('/account/edit', formatedValues);
+                updateUserData(response.data);
+                successToast("Usuário editado", "Usuário editado com sucesso");
+                navigate('/logged');
+            } catch (error: any) {
+                if (error?.response?.data) {
+                    errorToast("Erro ao editar usuário", error?.response?.data);
+                } else {
+                    errorToast("Erro ao editar usuário", "Ocorreu um erro ao editar usuário");
+                }
+            }
 
         }
     });
@@ -189,7 +206,7 @@ export function EditUser() {
                                     colorScheme='blue'
                                     w={'100%'}
                                     type="submit"
-                                    // isLoading={formik.isSubmitting}
+                                    isLoading={formik.isSubmitting}
                                     loadingText="Editando"
                                     spinnerPlacement='end'
                                 >
