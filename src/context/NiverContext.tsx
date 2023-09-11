@@ -1,10 +1,12 @@
 import { ReactNode, createContext, useEffect, useReducer } from "react";
 import { niverReducer } from "../reducers/niver/reducer";
 import { addNewPersonAction, editPersonAction, filterPersonsAction, removePersonAction, setBirthdayPersonsAction, setMonthAction } from "../reducers/niver/action";
-
+import { useToasts } from "../hooks/useToast";
+import { api } from "../utils/axios";
+import { getNormalizedDate, getOrderedBirthdayPersonsByMonth } from "../functions/date";
 
 export interface BirthdayPerson {
-    id: string;
+    id: number;
     avatar?: string;
     name: string;
     birthdate: Date;
@@ -24,37 +26,6 @@ export interface FilterForm {
     tag: string;
 }
 
-const fakeBirthdayPersons: BirthdayPerson[] = [
-    {
-        id: '1',
-        avatar: 'https://bit.ly/ryan-florence',
-        name: 'Ryan Florence',
-        birthdate: new Date('1995-01-01/'),
-        tag: 'friend',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
-        social: {
-            facebook: 'https://www.facebook.com/',
-            instagram: 'https://www.instagram.com/',
-            linkedin: 'https://www.linkedin.com/',
-            whatsapp: 'https://web.whatsapp.com/',
-            email: 'https://mail.google.com/',
-        }
-    },
-    {
-        id: '2',
-        avatar: 'https://bit.ly/ryan-florence',
-        name: 'Felpera pé sujo',
-        birthdate: new Date('1995-02-27/'),
-        tag: 'family',
-        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum. Quisquam, voluptatum Quisquam, voluptatum',
-        social: {
-            facebook: 'https://www.facebook.com/',
-            instagram: 'https://www.instagram.com/',
-        }
-    },
-
-]
-
 interface INiverContext {
     month: string;
     birthdayPersons: BirthdayPerson[];
@@ -63,7 +34,7 @@ interface INiverContext {
     setMonth: (month: string) => void;
     setBirthdayPersons: (persons: BirthdayPerson[]) => void;
     addNewPerson: (person: BirthdayPerson) => void;
-    removePerson: (personId: string) => void;
+    removePerson: (personId: number) => void;
     editPerson: (person: BirthdayPerson) => void;
     filterPersons: (filterData: FilterForm) => void;
 }
@@ -78,6 +49,7 @@ export interface NiverState {
 export const NiverContext = createContext({} as INiverContext);
 
 export function NiverProvider({ children }: { children: ReactNode }) {
+    const { errorToast } = useToasts();
     const [niverState, dispatch] = useReducer(niverReducer, {
         month: 'ver todos',
         birthdayPersons: [],
@@ -99,7 +71,7 @@ export function NiverProvider({ children }: { children: ReactNode }) {
         dispatch(addNewPersonAction(person));
     }
 
-    function removePerson(personId: string) {
+    function removePerson(personId: number) {
         dispatch(removePersonAction(personId));
     }
 
@@ -111,8 +83,31 @@ export function NiverProvider({ children }: { children: ReactNode }) {
         dispatch(filterPersonsAction(filterData));
     }
 
+    async function getBirthdayPersons() {
+        try {
+            const response = await api.get('/niver');
+
+            const formattedPersons = response.data.map((person: BirthdayPerson) => {
+                return {
+                    ...person,
+                    birthdate: getNormalizedDate(person.birthdate)
+                }
+            });
+
+            const orderedPersons = getOrderedBirthdayPersonsByMonth(formattedPersons);
+
+            setBirthdayPersons(orderedPersons);
+        } catch (error: any) {
+            if (error?.response?.data?.message) {
+                errorToast("Erro ao buscar", error?.response?.data?.message);
+            } else {
+                errorToast("Erro ao buscar", "Ocorreu um erro ao buscar os usuários");
+            }
+        }
+    }
+
     useEffect(() => {
-        setBirthdayPersons(fakeBirthdayPersons);
+        getBirthdayPersons();
     }, [])
 
     return (

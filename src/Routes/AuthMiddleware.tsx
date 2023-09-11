@@ -10,7 +10,7 @@ export function AuthMiddleware({ children }: AuthMiddlewareProps) {
 
     return (
         <>
-            {user?.token ? children : <Navigate to="/auth/login" />}
+            {user?.access_token ? children : <Navigate to="/auth/login" />}
         </>
     )
 }
@@ -20,7 +20,7 @@ export function LoggedMiddleware({ children }: AuthMiddlewareProps) {
 
     return (
         <>
-            {!user?.token ? children : <Navigate to="/logged" />}
+            {!user?.access_token ? children : <Navigate to="/logged" />}
         </>
     )
 }

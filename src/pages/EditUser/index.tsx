@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useFormik } from "formik";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { VStack, FormControl, FormLabel, Input, InputGroup, InputRightElement, IconButton, Button, Card, CardBody, Container, Heading, FormErrorMessage } from "@chakra-ui/react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { initialValues, validationSchema } from '../../../utils/forms/editUser';
-import { AvatarInput } from '../../../components/Logged/AvatarInput';
-import { api } from '../../../utils/axios';
-import { useToasts } from '../../../hooks/useToast';
-import { useNavigate } from 'react-router-dom';
+import { initialValues, validationSchema } from '../../utils/forms/editUser';
+import { AvatarInput } from '../../components/Logged/AvatarInput';
+import { api } from '../../utils/axios';
+import { useToasts } from '../../hooks/useToast';
+import { useLocalStorage } from '../../hooks/useStorage';
 
 export function EditUser() {
+    const [storageUser, setStorageUser] = useLocalStorage('user');
     const { user, updateUserData } = useAuth();
     const { errorToast, successToast } = useToasts();
-    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState({
         currentPassword: false,
         newPassword: false
@@ -25,19 +25,28 @@ export function EditUser() {
             const formatedValues: any = {
                 ...values
             }
-            if (!formatedValues.newPassword) delete formatedValues.newPassword;
-            if (formatedValues.avatar === user.avatar || !formatedValues.avatar) delete formatedValues.avatar;
-            if (formatedValues.name === user.name) delete formatedValues.name;
-            if (formatedValues.email === user.email) delete formatedValues.email;
-
+            Object.keys(formatedValues).forEach(key => {
+                if (formatedValues[key] === (user as any)[key]) delete formatedValues[key];
+                if (!formatedValues[key]) delete formatedValues[key];
+            });
+            if (Object.keys(formatedValues).length <= 1) {
+                errorToast("Erro ao editar usuário", "Altere pelo menos um campo");
+                return;
+            }
             try {
-                const response = await api.put('/account/edit', formatedValues);
-                updateUserData(response.data);
+                const response = await api.put('/user/edit', formatedValues);
+                updateUserData({
+                    access_token: storageUser.access_token,
+                    ...response.data
+                });
+                setStorageUser({
+                    access_token: storageUser.access_token,
+                    ...response.data
+                });
                 successToast("Usuário editado", "Usuário editado com sucesso");
-                navigate('/logged');
             } catch (error: any) {
-                if (error?.response?.data) {
-                    errorToast("Erro ao editar usuário", error?.response?.data);
+                if (error?.response?.data?.message) {
+                    errorToast("Erro ao editar usuário", error?.response?.data?.message);
                 } else {
                     errorToast("Erro ao editar usuário", "Ocorreu um erro ao editar usuário");
                 }

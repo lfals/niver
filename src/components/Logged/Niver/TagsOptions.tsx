@@ -1,4 +1,4 @@
-const options = [
+export const tagOptions = [
     { value: 'friend', label: 'Amigo' },
     { value: 'family', label: 'Família' },
     { value: 'work', label: 'Trabalho' },
@@ -12,7 +12,7 @@ const options = [
 export function TagsOptions() {
     return (
         <>
-            {options.map(option => (
+            {tagOptions.map(option => (
                 <option key={option.value} value={option.value}>{option.label}</option>
             ))}
         </>

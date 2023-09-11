@@ -1,6 +1,6 @@
 import { Button, Flex, Grid, GridItem, Hide, Select, Show, VStack, useDisclosure } from "@chakra-ui/react";
 import { Filter } from "./Components/Filter";
-import { ModalAddNiver } from "./Components/ModalAddNiver";
+import { ModalAddNiver } from "./Components/Modals/ModalAddNiver";
 import { allMonthOptions } from "../../functions/date";
 import { MonthButton } from "./Components/MonthButton";
 import { useContext } from "react";

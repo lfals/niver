@@ -30,7 +30,7 @@ export function addNewPersonAction(person: BirthdayPerson) {
     };
 }
 
-export function removePersonAction(id: string) {
+export function removePersonAction(id: number) {
     return {
         type: ActionTypes.REMOVE_PERSON,
         payload: id,

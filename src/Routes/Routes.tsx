@@ -6,7 +6,7 @@ import { Register } from '../pages/Register';
 import { Niver } from '../pages/Niver';
 import { LoggedLayout } from '../layouts/LoggedLayout/index';
 import { AuthMiddleware, LoggedMiddleware } from './AuthMiddleware';
-import { EditUser } from '../pages/Home/EditUser';
+import { EditUser } from '../pages/EditUser';
 
 export function Router() {
     return (

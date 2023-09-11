@@ -1,28 +1,21 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, VStack, FormControl, FormLabel, Input, Select, Textarea, InputGroup, InputLeftElement, Icon, FormErrorMessage, Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box } from "@chakra-ui/react";
-import { FaEnvelope, FaFacebookF, FaInstagram, FaLinkedin, FaWhatsapp } from "react-icons/fa";
-// import { NiverContext } from "../../../context/NiverContext";
-// import { useContext } from "react";
-import { useFormik } from "formik";
-import { addNiverInitialValues, addNiverValidationSchema } from "../../../utils/forms/addNiver";
-import { phoneMask } from "../../../utils/masks";
-import { TagsOptions } from "../../../components/Logged/Niver/TagsOptions";
-import { AvatarInput } from "../../../components/Logged/AvatarInput";
-interface ModalAddNiverProps {
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, VStack, FormControl, FormLabel, Input, FormErrorMessage, Select, Textarea, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, InputGroup, InputLeftElement, Icon, ModalFooter, Button, Box } from "@chakra-ui/react";
+import { FaFacebookF, FaInstagram, FaLinkedin, FaWhatsapp, FaEnvelope } from "react-icons/fa";
+import { AvatarInput } from "../../../../components/Logged/AvatarInput";
+import { TagsOptions } from "../../../../components/Logged/Niver/TagsOptions";
+import { phoneMask } from "../../../../utils/masks";
+import { FormikProps } from "formik";
+import { niverInitialValues } from "../../../../utils/forms/addNiver";
+
+interface ModalNiverProps {
     isOpen: boolean;
     onClose: () => void;
+    formik: FormikProps<typeof niverInitialValues>;
+    type: 'add' | 'edit';
 }
 
-
-export function ModalAddNiver({ isOpen, onClose }: ModalAddNiverProps) {
-    // const { addNewPerson } = useContext(NiverContext);
-
-    const formik = useFormik({
-        initialValues: addNiverInitialValues,
-        validationSchema: addNiverValidationSchema,
-        onSubmit: values => {
-            console.log(values);
-        }
-    });
+export function ModalNiver({ isOpen, onClose, formik, type }: ModalNiverProps) {
+    const modalTitle = type === 'add' ? 'Adicionar' : 'Editar';
+    const buttonText = type === 'add' ? 'Adicionar' : 'Salvar';
 
     return (
         <Modal
@@ -32,7 +25,7 @@ export function ModalAddNiver({ isOpen, onClose }: ModalAddNiverProps) {
             <ModalOverlay />
             <ModalContent>
                 <form onSubmit={formik.handleSubmit}>
-                    <ModalHeader>Adicionar Aniversariante</ModalHeader>
+                    <ModalHeader>{`${modalTitle} Aniversariante`}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack
@@ -82,12 +75,18 @@ export function ModalAddNiver({ isOpen, onClose }: ModalAddNiverProps) {
                                 <FormErrorMessage>{formik.errors?.tag}</FormErrorMessage>
                             </FormControl>
 
-                            <FormControl>
+                            <FormControl
+                                isInvalid={!!formik.errors?.description && formik.touched?.description}
+                            >
                                 <FormLabel>Descrição</FormLabel>
                                 <Textarea
                                     resize={'none'}
                                     placeholder="Escreva uma descrição"
+                                    name="description"
+                                    value={formik.values.description}
+                                    onChange={formik.handleChange}
                                 />
+                                <FormErrorMessage>{formik.errors?.description}</FormErrorMessage>
                             </FormControl>
 
                             <Accordion
@@ -226,7 +225,7 @@ export function ModalAddNiver({ isOpen, onClose }: ModalAddNiverProps) {
                             size={'sm'}
                             type="submit"
                         >
-                            Salvar
+                            {buttonText}
                         </Button>
                     </ModalFooter>
                 </form>

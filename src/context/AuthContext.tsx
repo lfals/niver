@@ -50,8 +50,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
             api.defaults.headers['Authorization'] = `Bearer ${response.data.access_token}`;
             navigate('/logged');
         } catch (error: any) {
-            if (error?.response?.data) {
-                errorToast("Erro ao fazer cadastro", error?.response?.data);
+            if (error?.response?.data?.message) {
+                errorToast("Erro ao fazer cadastro", error?.response?.data?.message);
             } else {
                 errorToast("Erro ao fazer cadastro", "Ocorreu um erro ao fazer cadastro");
             }
@@ -67,11 +67,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setStorageUser(response.data);
             updateUserData(response.data);
             successToast("Login", "Login realizado com sucesso");
-            api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`;
+            api.defaults.headers['Authorization'] = `Bearer ${response.data.access_token}`;
             navigate('/logged');
         } catch (error: any) {
-            if (error?.response?.data) {
-                errorToast("Erro ao fazer login", error?.response?.data);
+            console.log(error);
+
+            if (error?.response?.data.message) {
+                errorToast("Erro ao fazer login", error?.response?.data.message);
             } else {
                 errorToast("Erro ao fazer login", "Ocorreu um erro ao fazer login");
             }
@@ -85,8 +87,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     useEffect(() => {
-        if (storageUser?.token) {
+        if (storageUser?.access_token) {
             updateUserData(storageUser);
+            api.defaults.headers['Authorization'] = `Bearer ${storageUser?.access_token}`;
         }
     }, [])
 

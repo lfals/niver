@@ -1,6 +1,7 @@
 import { Avatar, AvatarGroup, HStack, Heading, useColorModeValue } from "@chakra-ui/react";
 import { NiverContext } from "../../../context/NiverContext";
 import { useContext } from "react";
+import { getMonthString } from "../../../functions/date";
 
 interface MonthButtonProps {
     month: string;
@@ -8,12 +9,16 @@ interface MonthButtonProps {
 }
 
 export function MonthButton({ month, isActive = false }: MonthButtonProps) {
-    const { setMonth } = useContext(NiverContext);
+    const { setMonth, birthdayPersons } = useContext(NiverContext);
     const cardBackground = isActive ? useColorModeValue('gray.300', 'gray.600') : useColorModeValue('gray.100', 'gray.900');
     const isSeeAllMonths = month === 'ver todos';
+    const birthdayPersonsOnMonth = birthdayPersons.filter(birthdayPerson => getMonthString(birthdayPerson.birthdate) === month);
+    const hasBirthdayPersonsOnMonth = birthdayPersonsOnMonth.length > 0;
+
     return (
         <HStack
             w={'full'}
+            h={'3rem'}
             py={'0.5rem'}
             px={'1rem'}
             gap={'1rem'}
@@ -33,7 +38,7 @@ export function MonthButton({ month, isActive = false }: MonthButtonProps) {
                 display={'flex'}
                 justifyContent={isSeeAllMonths ? 'center' : 'flex-start'}
                 flex={1}
-                _after={!isSeeAllMonths ? {
+                _after={!isSeeAllMonths && hasBirthdayPersonsOnMonth ? {
                     content: `""`,
                     display: 'block',
                     background: useColorModeValue('gray.800', 'white'),
@@ -45,13 +50,13 @@ export function MonthButton({ month, isActive = false }: MonthButtonProps) {
                 {month}
             </Heading>
             {!isSeeAllMonths && (
-                <AvatarGroup size='sm' max={2}>
-                    <Avatar name='Ryan Florence' src='https://bit.ly/ryan-florence' />
-                    <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-                    <Avatar name='Kent Dodds' src='https://bit.ly/kent-c-dodds' />
-                    <Avatar name='Prosper Otemuyiwa' src='https://bit.ly/prosper-baba' />
-                    <Avatar name='Christian Nwamba' src='https://bit.ly/code-beast' />
-                </AvatarGroup>
+                hasBirthdayPersonsOnMonth && (
+                    <AvatarGroup size='sm' max={2}>
+                        {birthdayPersonsOnMonth.map(person => (
+                            <Avatar key={person.id} name={person.name} src={person?.avatar} />
+                        ))}
+                    </AvatarGroup>
+                )
             )}
         </HStack>
     )

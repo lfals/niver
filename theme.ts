@@ -7,6 +7,9 @@ const config: ThemeConfig = {
 
 const styles = {
     global: {
+        body: {
+            overflowX: "hidden",
+        },
         "body, input, button, textarea": {
             fontFamily: "'Poppins', sans-serif",
             fontWeight: "400",
