@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-    baseURL: "https://niver.magi.zip/api/",
+    baseURL: "https://niver-api.fluma.dev/api",
 });
 
 api.interceptors.request.use((config) => {
